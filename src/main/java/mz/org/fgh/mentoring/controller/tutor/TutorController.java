@@ -11,13 +11,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.inject.Inject;
 import mz.org.fgh.mentoring.api.RestAPIResponse;
 import mz.org.fgh.mentoring.base.BaseController;
+import mz.org.fgh.mentoring.entity.career.CareerType;
 import mz.org.fgh.mentoring.entity.tutor.Tutor;
+import mz.org.fgh.mentoring.entity.tutor.TutorLocation;
+import mz.org.fgh.mentoring.service.tutor.TutorLocationService;
 import mz.org.fgh.mentoring.service.tutor.TutorService;
 import mz.org.fgh.mentoring.api.RESTAPIMapping;
+import mz.org.fgh.mentoring.util.LifeCycleStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Optional;
 
 import static mz.org.fgh.mentoring.api.RESTAPIMapping.API_VERSION;
 
@@ -26,6 +31,8 @@ public class TutorController extends BaseController {
 
     @Inject
     private TutorService tutorService;
+    @Inject
+    private TutorLocationService tutorLocationService;
 
     public TutorController() {
     }
@@ -42,26 +49,52 @@ public class TutorController extends BaseController {
         return tutorService.findAll();
     }
 
-    @Get
-    public List<Tutor> getAllV1() {
-        LOG.debug("Searching tutors version 1");
-        return tutorService.findAll();
-    }
-
-    @Get("/{id}")
-    public Tutor findTutorById(@PathVariable("id") Long id){
-       return this.tutorService.findById(id).get();
-    }
-
     @Post(
             consumes = MediaType.APPLICATION_JSON,
             produces = MediaType.APPLICATION_JSON
     )
-    public HttpResponse<RestAPIResponse> create (@Body Tutor tutor) {
+    public Tutor create (@Body Tutor tutor) {
 
+       Tutor tutorResult = this.tutorService.create(tutor);
+        LOG.debug("Created tutor {}", tutorResult);
 
-        LOG.debug("Created tutor {}", new Tutor());
-
-        return HttpResponse.ok().body(new Tutor());
+        return tutorResult;
     }
+
+    @Put(
+            consumes = MediaType.APPLICATION_JSON,
+            produces = MediaType.APPLICATION_JSON
+    )
+    public Tutor update(@Body Tutor tutor){
+
+        Tutor tutorResult = this.tutorService.update(tutor);
+        LOG.debug("Update tutor {}", tutorResult);
+
+        return tutorResult;
+    }
+
+    @Get("{uuid}")
+    public Tutor fetchTutorByUuid(@PathVariable("uuid") String partnerUuid){
+        LOG.debug(" fetchTutorByUuid uuid ");
+        return this.tutorService.fetchTutorByUuid(partnerUuid);
+    }
+
+    @Get()
+    public List<Tutor> findBySelectedFilter(final String code, final String name, final String surname, final String phoneNumber,
+                                            final CareerType careerType){
+        return this.tutorService.findBySelectedFilter(code, name, surname, phoneNumber, careerType);
+    }
+
+    @Get("/tutor-partner")
+    public List<Tutor> findBySelectedFilter(final String code, final String name, final String surname, final String phoneNumber,
+                                            final CareerType careerType, String partnerUuid){
+
+        return this.tutorService.findBySelectedFilter(code, name, surname, phoneNumber, careerType,partnerUuid );
+    }
+
+    @Post("v2/tutor-locations")
+    public List<TutorLocation> allocateTutorLocations(final TutorBeanResource tutorBeanResource){
+       return this.tutorLocationService.allocateTutorLocations(tutorBeanResource.getTutor() , tutorBeanResource.getLocations());
+    }
+
 }
