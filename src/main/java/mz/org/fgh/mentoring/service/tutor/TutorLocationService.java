@@ -1,11 +1,14 @@
 package mz.org.fgh.mentoring.service.tutor;
 
 import jakarta.inject.Singleton;
+import mz.org.fgh.mentoring.entity.healthfacility.HealthFacility;
+import mz.org.fgh.mentoring.entity.tutor.Tutor;
 import mz.org.fgh.mentoring.entity.tutor.TutorLocation;
 import mz.org.fgh.mentoring.error.MentoringBusinessException;
 import mz.org.fgh.mentoring.repository.tutor.TutorLocationRepository;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +30,7 @@ public class TutorLocationService {
 
     public TutorLocation findTutorLocationById(@NotNull Long id){
         Optional<TutorLocation> optionalTutorLocation = tutorLocationRepository.findById(id);
-        if(optionalTutorLocation.isEmpty()){
+        if(optionalTutorLocation == null){
             throw new MentoringBusinessException("Tutor Location with ID: "+id+" was not found.");
         }
         return optionalTutorLocation.get();
@@ -35,5 +38,21 @@ public class TutorLocationService {
 
     public List<TutorLocation> findAllTutorLocations(){
         return tutorLocationRepository.findAll();
+    }
+
+    public List<TutorLocation> allocateTutorLocations(final Tutor tutor, final List<HealthFacility> locations){
+
+        final List<TutorLocation> tutorLocations = new ArrayList<>();
+
+        locations.forEach(location ->{
+
+            TutorLocation tutorLocation = new TutorLocation();
+            tutorLocation.setLocation(location);
+            tutorLocation.setTutor(tutor);
+
+            this.createTutorLocation(tutorLocation);
+            tutorLocations.add(tutorLocation);
+        });
+        return tutorLocations;
     }
 }
