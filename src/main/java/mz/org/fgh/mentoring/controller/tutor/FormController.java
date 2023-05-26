@@ -41,12 +41,6 @@ public class FormController extends BaseController {
         return formService.findAll();
     }
 
-    @Get
-    public List<Form> getAllV1() {
-        LOG.debug("Searching forms version 1");
-        return formService.findAll();
-    }
-
     @Get("/{id}")
     public Optional<Form> findById(@PathVariable("id") Long id){
         return formService.findById(id);
