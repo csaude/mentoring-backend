@@ -50,18 +50,7 @@ public class FormQuestionController extends BaseController {
     }
 
     @Get
-    public List<FormQuestion> getAllV1() {
-        LOG.debug("Searching formQuestions version 1");
-        return formQuestionService.findAll();
-    }
-
-    @Get
-    public Optional<FormQuestion> findById(@Body Long id){
-        return formQuestionService.findById(id);
-    }
-
-    @Get("/{form}")
-    public List<FormQuestion> findFormQuestionByForm(@PathVariable("form") Long formId){
+    public List<FormQuestion> findFormQuestionByForm(final Long formId){
 
         if(formId != null) {
             LOG.debug("Searching form ,{form}", formId);

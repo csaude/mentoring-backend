@@ -1,6 +1,7 @@
 package mz.org.fgh.mentoring.service.tutor;
 
 import jakarta.inject.Singleton;
+import mz.org.fgh.mentoring.entity.career.CareerType;
 import mz.org.fgh.mentoring.entity.tutor.Tutor;
 import mz.org.fgh.mentoring.repository.tutor.TutorRepository;
 import mz.org.fgh.mentoring.util.LifeCycleStatus;
@@ -17,6 +18,14 @@ public class TutorService {
         this.tutorRepository = tutorRepository;
     }
 
+    public Tutor create(Tutor tutor) {
+        return this.tutorRepository.save(tutor);
+    }
+
+    public Tutor update(Tutor tutor){
+        return this.tutorRepository.update(tutor);
+    }
+
     public List<Tutor> findAll() {
         return this.tutorRepository.findAll();
     }
@@ -24,7 +33,17 @@ public class TutorService {
       return this.tutorRepository.findById(id);
     }
 
-    public Tutor create(Tutor tutor) {
-        return this.tutorRepository.save(tutor);
+    public Tutor fetchTutorByUuid(final String partnerUuid){
+       return this.tutorRepository.fetchByUuid(partnerUuid, LifeCycleStatus.ACTIVE);
+    }
+
+    public List<Tutor> findBySelectedFilter(final String code, final String name, final String surname, final String phoneNumber,
+                                            final CareerType careerType){
+        return this.tutorRepository.findBySelectedFilter(code, name, surname, careerType, phoneNumber, LifeCycleStatus.ACTIVE);
+    }
+
+    public List<Tutor> findBySelectedFilter(final String code, final String name, final String surname, final String phoneNumber,
+                                            final CareerType careerType, final String partnerUuid){
+      return this.tutorRepository.findBySelectedFilter(code, name, surname,careerType, phoneNumber,partnerUuid, LifeCycleStatus.ACTIVE);
     }
 }
