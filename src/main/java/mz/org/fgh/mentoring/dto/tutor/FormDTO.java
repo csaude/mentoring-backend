@@ -26,13 +26,13 @@ public class FormDTO implements Serializable {
 
     private String description;
 
-    @JsonProperty(value = "partner")
+    @JsonProperty(value = "partnerDTO")
     private PartnerDTO partnerDTO;
 
-    @JsonProperty(value = "programmaticArea")
+    @JsonProperty(value = "programmaticAreaDTO")
     private ProgrammaticAreaDTO programmaticAreaDTO;
 
-    @JsonProperty(value = "formType")
+    @JsonProperty(value = "formTypeDTO")
     private FormTypeDTO formTypeDTO;
 
     private Integer targetPatient;

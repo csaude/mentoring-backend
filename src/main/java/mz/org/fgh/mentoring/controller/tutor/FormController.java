@@ -19,6 +19,7 @@ import mz.org.fgh.mentoring.service.formquestion.FormQuestionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,6 +63,12 @@ public class FormController extends BaseController {
     public List<FormDTO> findFormByProgrammaticAreaUuid(@PathVariable("progrArea") String progrArea){
 
         return this.formService.findFormByProgrammaticAreaUuid(progrArea);
+    }
+
+    @Get(value = "/programaticareas/{progrAreas}")
+    public List<FormDTO> findFormByProgrammaticAreaUuids(@PathVariable("progrAreas") String[] progrAreas){
+
+        return this.formService.findFormByProgrammaticAreaUuids(Arrays.asList(progrAreas));
     }
 
     @Post(

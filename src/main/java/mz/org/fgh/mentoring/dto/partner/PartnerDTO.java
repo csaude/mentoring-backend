@@ -11,6 +11,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PartnerDTO implements Serializable {
+
+    private String uuid;
+
     private String name;
 
     private String description;
@@ -18,5 +21,6 @@ public class PartnerDTO implements Serializable {
     public PartnerDTO(Partner partner){
         this.setName(partner.getName());
         this.setDescription(partner.getDescription());
+        this.setUuid(partner.getUuid());
     }
 }

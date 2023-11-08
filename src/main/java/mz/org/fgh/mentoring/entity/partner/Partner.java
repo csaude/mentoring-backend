@@ -1,14 +1,16 @@
 package mz.org.fgh.mentoring.entity.partner;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import mz.org.fgh.mentoring.base.BaseEntity;
+import mz.org.fgh.mentoring.entity.tutor.Tutor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "partners")
@@ -23,5 +25,6 @@ public class Partner extends BaseEntity {
 
     @Column(name = "DESCRIPTION", nullable = false)
     private String description;
+
 
 }

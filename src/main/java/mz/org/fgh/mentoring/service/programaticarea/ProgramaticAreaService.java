@@ -53,16 +53,10 @@ public class ProgramaticAreaService {
         }
         return programmaticAreaDTOS;
     }
-    public List<ProgrammaticAreaDTO> findProgrammaticAreaByTutorProgrammaticAreaUuid(final String tutorUuid){
+    public ProgrammaticAreaDTO findProgrammaticAreaByTutorProgrammaticAreaUuid(final String tutorUuid){
 
-        List<ProgrammaticAreaDTO> programmaticAreaDTOS = new ArrayList<>();
+        ProgrammaticArea programmaticArea = this.programaticAreaRepository.findProgrammaticAreaByTutorProgrammaticAreaUuid(tutorUuid);
 
-        List<ProgrammaticArea> programmaticAreas = this.programaticAreaRepository.findProgrammaticAreaByTutorProgrammaticAreaUuid(tutorUuid);
-
-        for (ProgrammaticArea programmaticArea : programmaticAreas){
-            programmaticAreaDTOS.add(new ProgrammaticAreaDTO(programmaticArea));
-        }
-
-        return programmaticAreaDTOS;
+        return new ProgrammaticAreaDTO(programmaticArea);
     }
 }

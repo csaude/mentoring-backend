@@ -37,10 +37,9 @@ public class TutorController extends BaseController {
 
     public static final Logger LOG = LoggerFactory.getLogger(TutorController.class);
 
-    @Operation(summary = "Return a list off all Tutor")
+
     @ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON))
     @Tag(name = "Tutor")
-    @Version(API_VERSION)
     @Get("/{limit}/{offset}")
     public List<TutorDTO> getAll(@PathVariable("limit") long limit , @PathVariable("offset") long offset) {
         LOG.debug("Searching tutors version 2");
@@ -59,7 +58,7 @@ public class TutorController extends BaseController {
         return tutorDTOS;
     }
 
-    @Get
+    //@Get
     public List<TutorDTO> getAllV1() {
         LOG.debug("Searching tutors version 1");
 

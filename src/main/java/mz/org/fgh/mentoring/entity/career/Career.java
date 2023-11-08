@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import mz.org.fgh.mentoring.base.BaseEntity;
 import mz.org.fgh.mentoring.entity.tutor.Tutor;
+import mz.org.fgh.mentoring.entity.tutorprogramaticarea.TutorProgrammaticArea;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -32,6 +33,7 @@ public class Career extends BaseEntity {
     private String position;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "career" )
-    private final Set<Tutor> tutors = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "career")
+    private Set<Tutor> tutors = new HashSet<>();
+
 }

@@ -15,6 +15,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class FormTypeDTO implements Serializable {
 
+    private String uuid;
+
     private String description;
 
     private  String code;
@@ -22,5 +24,6 @@ public class FormTypeDTO implements Serializable {
     public FormTypeDTO(FormType formType) {
         this.description = formType.getDescription();
         this.code = formType.getCode();
+        this.uuid = formType.getUuid();
     }
 }

@@ -88,6 +88,19 @@ public class FormService {
 
         return formDTOS;
     }
+
+    public List<FormDTO> findFormByProgrammaticAreaUuids(List<String> programaticAreaUuids){
+
+        List<FormDTO> formDTOS = new ArrayList<>();
+
+        List<Form> forms = this.formRepository.findFormByProgrammaticAreaUuids(programaticAreaUuids);
+
+        for(Form form : forms){
+            formDTOS.add(new FormDTO(form));
+        }
+
+        return formDTOS;
+    }
     public Form create(Form form){
         return this.formRepository.save(form);
     }
