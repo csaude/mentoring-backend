@@ -50,8 +50,9 @@ public class Tutor extends BaseEntity implements UserIndividual {
     @Column(name = "IS_USER", nullable = false)
     private Boolean isUser = Boolean.FALSE;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "PARTNER_ID")
+    @JoinColumn(name = "PARTNER_ID", nullable = false)
     private Partner partner;
 
     @ManyToOne(fetch = FetchType.EAGER)

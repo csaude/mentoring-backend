@@ -45,7 +45,7 @@ public class TutorDTO implements Serializable {
         this.setCareerDTO(new CareerDTO(tutor.getCareer()));
         this.setPhoneNumber(tutor.getPhoneNumber());
         this.setEmail(tutor.getEmail());
-        this.setUserDTO(new UserDTO(tutor.getUser()));
+        //this.setUserDTO(new UserDTO(tutor.getUser()));
         this.setPartnerDTO(new PartnerDTO(tutor.getPartner()));
 
     }
