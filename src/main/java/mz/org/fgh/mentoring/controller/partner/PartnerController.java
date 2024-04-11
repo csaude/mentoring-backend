@@ -1,4 +1,4 @@
-package mz.org.fgh.mentoring.controller.Partner;
+package mz.org.fgh.mentoring.controller.partner;
 
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.MediaType;
