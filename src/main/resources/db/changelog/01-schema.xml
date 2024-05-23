@@ -1939,4 +1939,38 @@
             <column name="END_DATE" type="datetime"> </column>
         </addColumn>
     </changeSet>
+    <changeSet id="Table-answers-dropColumn-form_question_id" author="ialuj">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="answers" columnName="QUESTION_ID"/>
+        </preConditions>
+        <dropColumn tableName="answers" columnName="QUESTION_ID" />
+    </changeSet>
+    <changeSet id="Table-answers-addColumn-form_question_id" author="ialuj" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="answers" columnName="FORM_QUESTION_ID"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="answers">
+            <column name="FORM_QUESTION_ID"  type="bigint(20)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="Table-answers-addColumn-answers_form_question_fk" author="ialuj">
+        <comment>
+            Create iteration type foreign key on mentorships table
+        </comment>
+        <addForeignKeyConstraint constraintName="answers_form_question_fk"
+                                 baseTableName="answers" baseColumnNames="form_question_id"
+                                 referencedTableName="answers" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="Table-answers-addColumn-answer" author="ialuj" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="answers" columnName="ANSWER"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="answers">
+            <column name="ANSWER"  type="bigint(20)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
