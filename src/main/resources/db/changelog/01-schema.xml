@@ -1939,13 +1939,60 @@
             <column name="END_DATE" type="datetime"> </column>
         </addColumn>
     </changeSet>
-    <changeSet id="Table-answers-dropColumn-form_question_id" author="ialuj">
-        <preConditions onFail="MARK_RAN">
-            <columnExists tableName="answers" columnName="QUESTION_ID"/>
-        </preConditions>
-        <dropColumn tableName="answers" columnName="QUESTION_ID" />
+    <changeSet  author="ialuj"  id="renameTable-ronda_mentorandos">
+        <renameTable  newTableName="ronda_mentee"
+                      oldTableName="ronda_mentorandos"/>
     </changeSet>
-    <changeSet id="Table-answers-addColumn-form_question_id" author="ialuj" >
+    <changeSet id="RONDA_MENTEE_202405231206" author="ialuj">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="ronda_mentee" columnName="START_DATE"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="ronda_mentee">
+            <column name="START_DATE" type="datetime"> </column>
+        </addColumn>
+        <addColumn tableName="ronda_mentee">
+            <column name="END_DATE" type="datetime"> </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="RONDA_202406041206" author="ialuj">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="rondas" columnName="HEALTH_FACILITY_ID"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="rondas">
+            <column name="HEALTH_FACILITY_ID" type="bigint(20)"> </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="SESSION_202406041206" author="ialuj">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="sessions" columnName="RONDA_ID"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="sessions">
+            <column name="RONDA_ID" type="bigint(20)"> </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="Table-rondas-addColumn-ronda_health_facility_fk" author="ialuj">
+        <comment>
+            Create iteration type foreign key on mentorships table
+        </comment>
+        <addForeignKeyConstraint constraintName="ronda_health_facility_fk"
+                                 baseTableName="rondas" baseColumnNames="HEALTH_FACILITY_ID"
+                                 referencedTableName="health_facilities" referencedColumnNames="id"/>
+    </changeSet>
+    <!--<changeSet id="Table-sessions-addColumn-session_ronda_fk" author="ialuj">
+        <comment>
+            Create iteration type foreign key on mentorships table
+        </comment>
+        <addForeignKeyConstraint constraintName="session_ronda_fk"
+                                 baseTableName="sessions" baseColumnNames="ronda_id"
+                                 referencedTableName="ronda" referencedColumnNames="id"/>
+    </changeSet>-->
+    <!--<changeSet id="Table-answers-addColumn-form_question_id" author="ialuj" >
         <preConditions onFail="MARK_RAN">
             <not>
                 <columnExists tableName="answers" columnName="FORM_QUESTION_ID"/>
@@ -1957,7 +2004,7 @@
     </changeSet>
     <changeSet id="Table-answers-addColumn-answers_form_question_fk" author="ialuj">
         <comment>
-            Create iteration type foreign key on mentorships table
+            Create iteration type foreign key on answers table
         </comment>
         <addForeignKeyConstraint constraintName="answers_form_question_fk"
                                  baseTableName="answers" baseColumnNames="form_question_id"
@@ -1972,5 +2019,5 @@
         <addColumn tableName="answers">
             <column name="ANSWER"  type="bigint(20)"/>
         </addColumn>
-    </changeSet>
+    </changeSet>-->
 </databaseChangeLog>

@@ -34,6 +34,11 @@ public abstract class Answer extends BaseEntity {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "QUESTION_ID", nullable = false)
+    private Question question;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FORM_QUESTION_ID", nullable = false)
     private FormQuestion formQuestion;
 
