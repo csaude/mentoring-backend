@@ -34,12 +34,4 @@ public class SessionStatusDTO extends BaseEntityDTO {
         this.description = description;
     }
 
-    public SessionStatus getSessionStatus() {
-        SessionStatus sessionStatus = new SessionStatus();
-        sessionStatus.setId(this.getId());
-        sessionStatus.setUuid(this.getUuid());
-        sessionStatus.setCode(this.getCode());
-        sessionStatus.setDescription(this.getDescription());
-        return sessionStatus;
-    }
 }

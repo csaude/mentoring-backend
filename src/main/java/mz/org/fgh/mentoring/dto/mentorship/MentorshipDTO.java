@@ -21,7 +21,6 @@ import mz.org.fgh.mentoring.entity.mentorship.Mentorship;
 @Data
 @NoArgsConstructor
 public class MentorshipDTO extends BaseEntityDTO {
-    private String code;
     private Integer iterationNumber;
     private Date startDate;
     private Date endDate;
@@ -70,14 +69,6 @@ public class MentorshipDTO extends BaseEntityDTO {
                 this.setAnswers(answerDTOS);
             }
         }
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public Integer getIterationNumber() {

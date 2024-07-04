@@ -26,12 +26,6 @@ public class ResponseTypeDTO extends BaseEntityDTO implements Serializable {
     }
 
     public ResponseType toResponseType() {
-        ResponseType responseType = new ResponseType();
-        responseType.setCode(this.getCode());
-        responseType.setId(this.getId());
-        responseType.setDescription(this.getDescription());
-        responseType.setUuid(this.getUuid());
-        if (Utilities.stringHasValue(this.getLifeCycleStatus())) responseType.setLifeCycleStatus(LifeCycleStatus.valueOf(this.getLifeCycleStatus()));
-        return responseType;
+        return new ResponseType(this);
     }
 }
