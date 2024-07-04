@@ -37,7 +37,7 @@ public class Session extends BaseEntity {
     @Column(name = "PERFORMED_DATE", nullable = false)
     private Date performedDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "SESSION_STATUS_ID", nullable = false)
     private SessionStatus status;
 

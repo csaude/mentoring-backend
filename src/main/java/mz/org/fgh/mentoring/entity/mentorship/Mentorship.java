@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 @Schema(name = "Mentorship", description = "The outcome of the provided mentoring to the tutored individuals")
-@Entity(name = "mentorship")
+@Entity(name = "Mentorship")
 @Table(name = "mentorships")
 @Setter
 @Getter
@@ -39,9 +39,6 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 @ToString
 public class Mentorship extends BaseEntity {
-
-    @Column(name = "CODE", nullable = false, length = 50)
-    private String code;
 
     @Column(name = "START_DATE", nullable = false)
     private Date startDate;
@@ -60,7 +57,7 @@ public class Mentorship extends BaseEntity {
     @JoinColumn(name = "TUTORED_ID", nullable = false)
     private Tutored tutored;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "FORM_ID", nullable = false)
     private Form form;
 
@@ -97,9 +94,9 @@ public class Mentorship extends BaseEntity {
 
     public Mentorship(MentorshipDTO mentorshipDTO) {
         super(mentorshipDTO);
-        this.setStartDate(this.getStartDate());
-        this.setEndDate(this.getEndDate());
-        this.setIterationNumber(this.getIterationNumber());
+        this.setStartDate(mentorshipDTO.getStartDate());
+        this.setEndDate(mentorshipDTO.getEndDate());
+        this.setIterationNumber(mentorshipDTO.getIterationNumber());
         this.setDemonstration(mentorshipDTO.isDemonstration());
         this.setDemonstrationDetails(mentorshipDTO.getDemonstrationDetails());
 

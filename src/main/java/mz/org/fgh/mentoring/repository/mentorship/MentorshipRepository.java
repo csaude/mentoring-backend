@@ -21,6 +21,10 @@ public interface MentorshipRepository extends CrudRepository<Mentorship, Long> {
     @Override
     Optional<Mentorship> findById(@NotNull Long id);
 
+    @Query("select m from Mentorship m " +
+            "where m.id = (select MAX(m1.id) from Mentorship m1 ) ")
+    Optional<Mentorship> getLastMentorship();
+
     List<PerformedSession> getSelectedOfFilterPMQTRList(Date startDate, Date endDate);
 
     List<Mentorship> fetchBySelectedFilter(String code, String tutor, String tutored, String formName, String healthFacility, String iterationType, Integer iterationNumber, LifeCycleStatus lfStatus, Date performedStartDate, Date performedEndDate);

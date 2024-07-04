@@ -60,7 +60,7 @@ public class ProgrammaticArea extends BaseEntity {
         this.code=programmaticAreaDTO.getCode();
         this.name=programmaticAreaDTO.getName();
         this.description=programmaticAreaDTO.getDescription();
-        this.program= new Program(programmaticAreaDTO.getProgram());
+        if(programmaticAreaDTO.getProgram()!=null) this.program= new Program(programmaticAreaDTO.getProgram());
     }
 
     @Override

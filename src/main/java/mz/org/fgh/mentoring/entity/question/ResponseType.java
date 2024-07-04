@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import mz.org.fgh.mentoring.base.BaseEntity;
+import mz.org.fgh.mentoring.dto.question.ResponseTypeDTO;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,6 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 @AllArgsConstructor
-@NoArgsConstructor
 public class ResponseType extends BaseEntity {
 
     @NotEmpty
@@ -27,5 +27,15 @@ public class ResponseType extends BaseEntity {
     @NotEmpty
     @Column(name = "code", nullable = false)
     private  String code;
+
+    public ResponseType() {
+
+    }
+
+    public ResponseType(ResponseTypeDTO responseTypeDTO) {
+        super(responseTypeDTO);
+        this.setCode(responseTypeDTO.getCode());
+        this.setDescription(responseTypeDTO.getDescription());
+    }
 
 }
