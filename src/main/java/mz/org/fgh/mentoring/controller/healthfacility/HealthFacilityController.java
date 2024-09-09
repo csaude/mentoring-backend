@@ -68,7 +68,7 @@ public class HealthFacilityController extends BaseController {
     @ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON))
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Tag(name = "HealthFacilities")
-    @Get("/getall")
+    @Get("/getAll")
     public List<HealthFacilityDTO> getAll(@Nullable @QueryValue("limit") Long limit ,
                                           @Nullable @QueryValue("offset") Long offset) {
         return this.healthFacilityService.getAll(limit, offset);
