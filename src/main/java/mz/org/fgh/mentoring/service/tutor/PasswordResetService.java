@@ -12,9 +12,6 @@ import mz.org.fgh.mentoring.repository.employee.EmployeeRepository;
 import mz.org.fgh.mentoring.repository.settings.SettingsRepository;
 import mz.org.fgh.mentoring.repository.tutor.PasswordResetRepository;
 import mz.org.fgh.mentoring.repository.tutor.TutorRepository;
-import mz.org.fgh.mentoring.repository.user.UserRepository;
-import mz.org.fgh.mentoring.service.setting.SettingService;
-import mz.org.fgh.mentoring.service.user.UserService;
 import mz.org.fgh.mentoring.service.setting.SettingService;
 import mz.org.fgh.mentoring.util.DateUtils;
 import mz.org.fgh.mentoring.util.LifeCycleStatus;
@@ -28,9 +25,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static mz.org.fgh.mentoring.config.SettingKeys.PASSWORD_RESET_EXPIRATION_MINUTES;
-import static mz.org.fgh.mentoring.config.SettingKeys.SERVER_BASE_URL;
-
 @Singleton
 public class PasswordResetService {
 
@@ -43,20 +37,20 @@ public class PasswordResetService {
     @Inject
     private EmployeeRepository employeeRepository;
 
-    private final SettingService settings;
-    private final UserRepository userRepository;
+    @Inject
+    private SettingsRepository settingsRepository;
 
     @Inject
     private EmailSender emailSender;
 
-    public PasswordResetService(SettingService settings, UserRepository userRepository) {
-        this.settings = settings;
-        this.userRepository = userRepository;
-    }
+    @Inject
+    private SettingService settingService;
 
     @Transactional
     public PasswordReset generateAndSendPasswordResetToken(PasswordResetRequestDTO dto) throws Exception {
 
+
+        String settingServerURL = settingService.get(SettingKeys.SERVER_BASE_URL, "https://mentdev.csaude.org.mz");
 
         // 1. Validar se o email existe
         Optional<Employee> employeeOpt = employeeRepository.findByEmail(dto.getEmail());
@@ -80,6 +74,11 @@ public class PasswordResetService {
             }
         });
 
+        // 4. Buscar tempo de expiração nas settings
+        Setting expirationSetting = settingsRepository.findByDesignation("PASSWORD_RESET_EXPIRATION_MINUTES")
+                .orElseThrow(() -> new RuntimeException("PASSWORD_RESET_EXPIRATION_MINUTES não configurado"));
+        int expirationMinutes = Integer.parseInt(expirationSetting.getValue());
+
         // 5. Gerar token conforme plataforma
         String token;
         if ("MOBILE".equalsIgnoreCase(dto.getChannel())) {
@@ -95,10 +94,10 @@ public class PasswordResetService {
         reset.setChannel(dto.getChannel());
         reset.setDeviceId(dto.getDeviceId());
         reset.setUsed(false);
-        reset.setExpiresAt(DateUtils.addMinutesDate(DateUtils.getCurrentDate(), settings.getInt(PASSWORD_RESET_EXPIRATION_MINUTES, 15)));
+        reset.setExpiresAt(DateUtils.addMinutesDate(DateUtils.getCurrentDate(), expirationMinutes));
         reset.setUuid(UUID.randomUUID().toString());
         reset.setCreatedAt(DateUtils.getCurrentDate());
-        reset.setCreatedBy(userRepository.findByUsername("system").get().getUuid());
+        reset.setCreatedBy("SYSTEM");
         reset.setLifeCycleStatus(LifeCycleStatus.ACTIVE);
 
         // 7. Salvar na BD
@@ -109,8 +108,8 @@ public class PasswordResetService {
                 employee,
                 token,
                 dto.getChannel().equalsIgnoreCase("WEB") ? "WEB" : "MOBILE",
-                settings.get(SERVER_BASE_URL, "https://mentdev.csaude.org.mz"),
-                settings.get(PASSWORD_RESET_EXPIRATION_MINUTES, "15") + " minutos"
+                settingServerURL,
+                expirationMinutes + " minutos"
         );
 
         return reset;
@@ -195,13 +194,4 @@ public class PasswordResetService {
     public List<PasswordReset> findByUsedFalseAndExpiresAtBefore(Date now) {
         return passwordResetRepository.findByUsedFalseAndExpiresAtBefore(now);
     }
-
-    @Transactional
-    public int deleteExpiredUnused(Date now) {
-        if (now == null) now = DateUtils.getCurrentDate();
-
-        long deleted = passwordResetRepository.deleteByUsedFalseAndExpiresAtBefore(now);
-        return (int) deleted;
-    }
-
 }

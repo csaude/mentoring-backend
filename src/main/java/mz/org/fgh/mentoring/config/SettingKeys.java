@@ -25,12 +25,6 @@ public final class SettingKeys {
     public static final String FLOW_HISTORY_JOB_INTERVAL_MINUTES =
             "mentoring.flowHistory.job.intervalMinutes";
 
-    public static final String FLOW_HISTORY_CRON =
-            "mentoring.flowHistory.cron";
-
-    public static final String FLOW_HISTORY_INTERRUPTION_ENABLED =
-            "mentoring.flowHistory.interruptJob.enabled";
-
     // =====================================================
     // Inteligência Artificial
     // =====================================================
@@ -40,13 +34,10 @@ public final class SettingKeys {
     public static final String AI_PERFORMANCE_RISK_EVALUATION_ENABLED =
             "mentoring.ai.performanceRisk.enabled";
 
-    // =====================================================
-    // Password Reset
-    // =====================================================
-    public static final String PASSWORD_RESET_EXPIRATION_MINUTES =
-            "mentoring.password.reset.token.expiration.time";
+    public static final String FLOW_HISTORY_CRON = "mentoring.flowHistory.cron";
 
-    public static final String PASSWORD_RESET_CLEANUP_CRON =
-            "mentoring.password.reset.cleanup.cron";
+    public static final String FLOW_HISTORY_INTERRUPTION_ENABLED =
+            "mentoring.flowHistory.interruptJob.enabled";
+
 
 }
